@@ -1,0 +1,8 @@
+yolov5_blur:
+  ros__parameters:
+    model_path: "/home/batuhanbeytekin/Downloads/yolov5x.onnx"
+    write_bag: False
+    debug: False
+    bag_name: "bag_test"
+    save_directory: "/home/batuhanbeytekin/LEODRIVE/bag2/"
+    camera_topic: "/lucid_vision/camera_0/image_raw"
