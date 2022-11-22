@@ -22,6 +22,7 @@ class Main(Node):
                 ('model_path', str()),
                 ('write_bag', bool()),
                 ('debug', bool()),
+                ('save_img', bool()),
                 ('bag_name', str()),
                 ('save_directory', str()),
                 ('camera_topic', str())
@@ -30,6 +31,7 @@ class Main(Node):
         self.model_path = self.get_parameter('model_path').get_parameter_value().string_value
         self.write_bag = self.get_parameter('write_bag').get_parameter_value().bool_value
         self.debug = self.get_parameter('debug').get_parameter_value().bool_value
+        self.save_img = self.get_parameter('save_img').get_parameter_value().bool_value
         self.bag_name = self.get_parameter('bag_name').get_parameter_value().string_value
         self.save_directory = self.get_parameter('save_directory').get_parameter_value().string_value
         self.camera_topic = self.get_parameter('camera_topic').get_parameter_value().string_value
@@ -39,6 +41,7 @@ class Main(Node):
         self.get_logger().info('model_path: %s' % self.model_path)
         self.get_logger().info('write_bag: %s' % self.write_bag)
         self.get_logger().info('debug: %s' % self.debug)
+        self.get_logger().info('save_img: %s' % self.save_img)
         self.get_logger().info('bag_name: %s' % self.bag_name)
         self.get_logger().info('save_directory: %s' % self.save_directory)
         self.get_logger().info('camera_topic: %s' % self.camera_topic)
@@ -102,12 +105,13 @@ class Main(Node):
         if self.debug:
             self.get_logger().info('Post processing in %s seconds' % (toc - tic))
 
-        tic = time.perf_counter()
-        # Save to save_directory with counter
-        cv2.imwrite(self.save_directory + "blur/" + str(self.counter) + ".jpg", img)
-        toc = time.perf_counter()
-        if self.debug:
-            self.get_logger().info('Saved in %s seconds' % (toc - tic))
+        if self.save_img:
+            tic = time.perf_counter()
+            # Save to save_directory with counter
+            cv2.imwrite(self.save_directory + "blur/" + str(self.counter) + ".jpg", img)
+            toc = time.perf_counter()
+            if self.debug:
+                self.get_logger().info('Saved in %s seconds' % (toc - tic))
 
         # Convert to ROS2 message
         tic = time.perf_counter()
