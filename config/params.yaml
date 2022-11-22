@@ -1,8 +1,8 @@
 yolov5_blur:
   ros__parameters:
-    model_path: "/home/batuhanbeytekin/Downloads/yolov5x.onnx"
+    model_path: "/home/leo/yolo_ws/yolov5_anonymizer_ros/weights/face_lp.onnx"
     write_bag: False
     debug: False
     bag_name: "bag_test"
-    save_directory: "/home/batuhanbeytekin/LEODRIVE/bag2/"
+    save_directory: "/home/leo/yolo_ws/results/"
     camera_topic: "/lucid_vision/camera_0/image_raw"

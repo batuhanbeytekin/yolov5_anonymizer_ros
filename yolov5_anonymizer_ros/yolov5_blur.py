@@ -80,41 +80,41 @@ class Main(Node):
         tic = time.perf_counter()
         img = self.bridge.imgmsg_to_cv2(input_image, desired_encoding="")
         toc = time.perf_counter()
-        print(f"Recieved in {toc - tic:0.4f} seconds")
-        self.get_logger().info('Recieved in %s seconds' % (toc - tic))
+        if self.debug:
+            self.get_logger().info('Recieved in %s seconds' % (toc - tic))
 
         tic = time.perf_counter()
         self.yolo.pre_processing(img)
         toc = time.perf_counter()
-        print(f"Pre-processing in {toc - tic:0.4f} seconds")
-        self.get_logger().info('Pre-processing in %s seconds' % (toc - tic))
+        if self.debug:
+            self.get_logger().info('Pre-processing in %s seconds' % (toc - tic))
 
         tic = time.perf_counter()
         self.yolo.inference()
         toc = time.perf_counter()
-        print(f"Inference in {toc - tic:0.4f} seconds")
-        self.get_logger().info('Inference in %s seconds' % (toc - tic))
+        if self.debug:
+            self.get_logger().info('Inference in %s seconds' % (toc - tic))
 
         tic = time.perf_counter()
         self.yolo.post_processing(img)
         self.counter += 1
         toc = time.perf_counter()
-        print(f"Post processing in {toc - tic:0.4f} seconds")
-        self.get_logger().info('Post processing in %s seconds' % (toc - tic))
+        if self.debug:
+            self.get_logger().info('Post processing in %s seconds' % (toc - tic))
 
         tic = time.perf_counter()
         # Save to save_directory with counter
         cv2.imwrite(self.save_directory + "blur/" + str(self.counter) + ".jpg", img)
         toc = time.perf_counter()
-        print(f"Saved in {toc - tic:0.4f} seconds")
-        self.get_logger().info('Saved in %s seconds' % (toc - tic))
+        if self.debug:
+            self.get_logger().info('Saved in %s seconds' % (toc - tic))
 
         # Convert to ROS2 message
         tic = time.perf_counter()
         ros2_msg = self.bridge.cv2_to_imgmsg(img, encoding="bgr8")
         toc = time.perf_counter()
-        print(f"Converted to ROS2 message in {toc - tic:0.4f} seconds")
-        self.get_logger().info('Converted to ROS2 message in %s seconds' % (toc - tic))
+        if self.debug:
+            self.get_logger().info('Converted to ROS2 message in %s seconds' % (toc - tic))
 
         if self.write_bag:
             self.writer.write(
